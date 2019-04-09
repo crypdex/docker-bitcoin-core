@@ -1,25 +1,24 @@
 #!/usr/bin/env bash
 
-SERVICE="bitcoin-core"
+##########################################
+# Run this script with Makefile from root
+# VERSION=0.17 make release
+##########################################
+
 #VERSION=
+SERVICE="bitcoin-core"
 ARCH="x86_64 arm64v8"
 
 # Build and push builds for these architectures
 for arch in ${ARCH}; do
-    docker build -f ${VERSION}/Dockerfile.${arch} -t crypdex/${SERVICE}:${arch}-${VERSION} ${VERSION}/.
-    # Push both images, version and "latest"
-    # docker push crypdex/${SERVICE}:${arch}-${VERSION}
-    # docker push crypdex/${SERVICE}:${arch}
+    docker build -f ${VERSION}/Dockerfile.${arch} -t crypdex/${SERVICE}:${VERSION}-${arch} ${VERSION}/.
+    docker push crypdex/${SERVICE}:${VERSION}-${arch}
 done
 
 # Now create a manifest that points from latest to the specific architecture
-# rm -rf ~/.docker/manifests/*
+rm -rf ~/.docker/manifests/*
 
 # version
-# docker manifest create crypdex/${SERVICE}:${VERSION} crypdex/${SERVICE}:x86_64-${VERSION} crypdex/${SERVICE}:arm64v8-${VERSION}
-#docker manifest push crypdex/${SERVICE}:${VERSION}
-
-# latest
-#docker manifest create crypdex/${service}:latest crypdex/${service}:x86_64-latest crypdex/${service}:arm64v8-latest
-#docker manifest push crypdex/${service}:latest
+docker manifest create crypdex/${SERVICE}:${VERSION} crypdex/${SERVICE}:${VERSION}-x86_64 crypdex/${SERVICE}:${VERSION}-arm64v8
+docker manifest push crypdex/${SERVICE}:${VERSION}
 

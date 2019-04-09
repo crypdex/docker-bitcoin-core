@@ -4,6 +4,12 @@ A bitcoin-core docker image.
 
 [![ruimarinho/bitcoin-core][docker-pulls-image]][docker-hub-url] [![ruimarinho/bitcoin-core][docker-stars-image]][docker-hub-url] [![ruimarinho/bitcoin-core][docker-size-image]][docker-hub-url] [![ruimarinho/bitcoin-core][docker-layers-image]][docker-hub-url]
 
+## Changes in this fork
+
+- Multiarch support
+- Using `su-exec` instead of `gosu`
+- Converted versions: `0.17` only
+
 ## Tags
 
 - `0.17.1`, `0.17`, `latest` ([0.17/Dockerfile](https://github.com/ruimarinho/docker-bitcoin-core/blob/master/0.17/Dockerfile))
@@ -62,8 +68,7 @@ You can optionally create a service using `docker-compose`:
 ```yml
 bitcoin-core:
   image: ruimarinho/bitcoin-core
-  command:
-    -printtoconsole
+  command: -printtoconsole
     -regtest=1
 ```
 
